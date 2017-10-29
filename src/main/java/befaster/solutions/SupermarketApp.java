@@ -10,8 +10,9 @@ import java.util.stream.Collectors;
 public class SupermarketApp {
 
     private final SpecialOfferCalculator specialOfferCalculator = new SpecialOfferCalculator();
+    private final GroupOffersCalculator groupOffersCalculator = new GroupOffersCalculator();
 
-    final static Map<String, Integer> priceMap = new HashMap<String, Integer>(){{
+    final static Map<String, Integer> PRICE_MAP = new HashMap<String, Integer>(){{
         put("A", 50);
         put("B", 30);
         put("C", 20);
@@ -22,7 +23,7 @@ public class SupermarketApp {
         put("H", 10);
         put("I", 35);
         put("J", 60);
-        put("K", 80);
+        put("K", 70);
         put("L", 90);
         put("M", 15);
         put("N", 40);
@@ -30,14 +31,14 @@ public class SupermarketApp {
         put("P", 50);
         put("Q", 30);
         put("R", 50);
-        put("S", 30);
+        put("S", 20);
         put("T", 20);
         put("U", 40);
         put("V", 50);
         put("W", 20);
-        put("X", 90);
-        put("Y", 10);
-        put("Z", 50);
+        put("X", 17);
+        put("Y", 20);
+        put("Z", 21);
     }};
 
 
@@ -48,10 +49,11 @@ public class SupermarketApp {
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
 
-        final SpecialOfferCalculation specialOfferCalculation = specialOfferCalculator.calculate(products);
-        int sum = specialOfferCalculation.getOffersSum();
+        final SpecialOfferCalculation groupOfferCalculation = groupOffersCalculator.calculate(products);
+        final SpecialOfferCalculation specialOfferCalculation = specialOfferCalculator.calculate(groupOfferCalculation.getRemainingProducts());
+        int sum = groupOfferCalculation.getOffersSum() + specialOfferCalculation.getOffersSum();
         for(final String product : specialOfferCalculation.getRemainingProducts()){
-                final int price = priceMap.getOrDefault(product, -1);
+                final int price = PRICE_MAP.getOrDefault(product, -1);
                 if(price == -1) return price;
                 sum += price;
         }

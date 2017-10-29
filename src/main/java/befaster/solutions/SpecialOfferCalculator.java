@@ -70,7 +70,7 @@ public class SpecialOfferCalculator {
         put("H", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(10, 80), new SpecialOffer(5,45))));
         put("V", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(3, 130), new SpecialOffer(2,90))));
 
-        put("K", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(2,150))));
+        put("K", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(2,120))));
         put("P", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(5,200))));
         put("Q", new ProductSpecialOffers(3, Arrays.asList(new SpecialOffer(3,80))));
         put("B", new ProductSpecialOffers(3, Arrays.asList(new SpecialOffer(2,45))));

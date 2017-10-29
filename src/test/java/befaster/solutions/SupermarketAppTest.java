@@ -18,6 +18,7 @@ public class SupermarketAppTest {
         assertThat(supermarketApp.checkout("D"), is(15));
         assertThat(supermarketApp.checkout("E"), is(40));
         assertThat(supermarketApp.checkout("F"), is(10));
+        assertThat(supermarketApp.checkout("K"), is(70));
     }
 
     @Test
@@ -53,9 +54,19 @@ public class SupermarketAppTest {
     public void shouldCalculateSpecialOffers(){
         assertThat(supermarketApp.checkout("AAA"), is(130));
         assertThat(supermarketApp.checkout("BB"), is(45));
+        assertThat(supermarketApp.checkout("KK"), is(120));
         assertThat(supermarketApp.checkout("ABABA"), is(130 + 45));
         assertThat(supermarketApp.checkout("ABABAA"), is(130 + 45 + 50));
     }
 
+    @Test
+    public void shouldCalculateWithGroupOffers(){
+        assertThat(supermarketApp.checkout("XAST"), is(50 + 45));
+    }
+
+    @Test
+    public void shouldCalculateWithGroupOffersAndSpecialOffers(){
+        assertThat(supermarketApp.checkout("XAAASTT"), is(130 + 45 + 17));
+    }
 
 }

@@ -17,6 +17,7 @@ public class SupermarketAppTest {
         assertThat(supermarketApp.checkout("C"), is(20));
         assertThat(supermarketApp.checkout("D"), is(15));
         assertThat(supermarketApp.checkout("E"), is(40));
+        assertThat(supermarketApp.checkout("F"), is(10));
     }
 
     @Test
@@ -39,6 +40,7 @@ public class SupermarketAppTest {
         assertThat(supermarketApp.checkout("AD"), is(65));
         assertThat(supermarketApp.checkout("ABC"), is(100));
         assertThat(supermarketApp.checkout("ABCDE"), is(155));
+        assertThat(supermarketApp.checkout("ABCDEF"), is(165));
     }
 
     @Test

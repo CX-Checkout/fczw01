@@ -69,6 +69,7 @@ public class SpecialOfferCalculator {
         put("A", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(5, 200), new SpecialOffer(3,130))));
         put("B", new ProductSpecialOffers(3, Arrays.asList(new SpecialOffer(2,45))));
         put("E", new ProductSpecialOffers(2, Arrays.asList(new SpecialOffer(2,0, Arrays.asList("B"), false))));
+        put("F", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(3,0, Arrays.asList("F"), false))));
     }};
 
     public SpecialOfferCalculation calculate(final List<String> basket) {

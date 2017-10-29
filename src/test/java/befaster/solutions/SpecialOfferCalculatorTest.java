@@ -97,4 +97,30 @@ public class SpecialOfferCalculatorTest {
         assertThat(result.getRemainingProducts().size(), is(4));
         assertThat(result.getRemainingProducts(), hasItems("E", "E", "E", "E"));
     }
+
+    @Test
+    public void shouldReturnSpecialOfferCalculationFor_3F(){
+        final List<String> skus = Arrays.asList("F", "F", "F");
+        final SpecialOfferCalculation result = calculator.calculate(skus);
+        assertThat(result.getOffersSum(), is(0));
+        assertThat(result.getRemainingProducts().size(), is(2));
+    }
+
+    @Test
+    public void shouldReturnSpecialOfferCalculationFor_6F(){
+        final List<String> skus = Arrays.asList("F", "F", "F", "F", "F", "F");
+        final SpecialOfferCalculation result = calculator.calculate(skus);
+        assertThat(result.getOffersSum(), is(0));
+        assertThat(result.getRemainingProducts().size(), is(4));
+    }
+
+    @Test
+    public void shouldReturnSpecialOfferCalculationFor_5F(){
+        final List<String> skus = Arrays.asList("F", "F", "F", "F", "F");
+        final SpecialOfferCalculation result = calculator.calculate(skus);
+        assertThat(result.getOffersSum(), is(0));
+        assertThat(result.getRemainingProducts().size(), is(4));
+    }
+
+
 }

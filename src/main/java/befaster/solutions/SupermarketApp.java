@@ -17,6 +17,7 @@ public class SupermarketApp {
         put("C", 20);
         put("D", 15);
         put("E", 40);
+        put("F", 10);
     }};
 
 

@@ -23,7 +23,7 @@ public class SupermarketAppTest {
     @Test
     public void shouldReturnFailureIfUnkownProduct(){
 
-        assertThat(supermarketApp.checkout("Z"), is(-1));
+        assertThat(supermarketApp.checkout("z"), is(-1));
     }
 
     @Test

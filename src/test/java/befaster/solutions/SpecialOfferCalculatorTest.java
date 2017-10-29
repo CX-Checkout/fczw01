@@ -122,5 +122,21 @@ public class SpecialOfferCalculatorTest {
         assertThat(result.getRemainingProducts().size(), is(4));
     }
 
+    @Test
+    public void shouldReturnSpecialOfferCalculationFor_3U(){
+        final List<String> skus = Arrays.asList("U", "U", "U");
+        final SpecialOfferCalculation result = calculator.calculate(skus);
+        assertThat(result.getOffersSum(), is(0));
+        assertThat(result.getRemainingProducts().size(), is(3));
+    }
+
+    @Test
+    public void shouldReturnSpecialOfferCalculationFor_4U(){
+        final List<String> skus = Arrays.asList("U", "U", "U", "U");
+        final SpecialOfferCalculation result = calculator.calculate(skus);
+        assertThat(result.getOffersSum(), is(0));
+        assertThat(result.getRemainingProducts().size(), is(3));
+    }
+
 
 }

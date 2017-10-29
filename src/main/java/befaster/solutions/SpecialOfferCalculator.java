@@ -67,9 +67,19 @@ public class SpecialOfferCalculator {
     private static final Map<String, ProductSpecialOffers> specialOffers = new HashMap<String, ProductSpecialOffers>(){{
         // order is important bigger offer first!
         put("A", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(5, 200), new SpecialOffer(3,130))));
+        put("H", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(10, 80), new SpecialOffer(5,45))));
+        put("V", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(3, 130), new SpecialOffer(2,90))));
+
+        put("K", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(2,150))));
+        put("P", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(5,200))));
+        put("Q", new ProductSpecialOffers(3, Arrays.asList(new SpecialOffer(3,80))));
         put("B", new ProductSpecialOffers(3, Arrays.asList(new SpecialOffer(2,45))));
+
         put("E", new ProductSpecialOffers(2, Arrays.asList(new SpecialOffer(2,0, Arrays.asList("B"), false))));
         put("F", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(3,0, Arrays.asList("F"), false))));
+        put("N", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(3,0, Arrays.asList("M"), false))));
+        put("R", new ProductSpecialOffers(2, Arrays.asList(new SpecialOffer(3,0, Arrays.asList("Q"), false))));
+        put("U", new ProductSpecialOffers(2, Arrays.asList(new SpecialOffer(4,0, Arrays.asList("U"), false))));
     }};
 
     public SpecialOfferCalculation calculate(final List<String> basket) {

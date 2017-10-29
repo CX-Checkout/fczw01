@@ -3,18 +3,72 @@ package befaster.solutions;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SpecialOfferCalculator {
 
-    private static final Map<String, Pair<Integer, Integer>> specialOffers = new HashMap<String, Pair<Integer, Integer>>(){{
-        put("A", new ImmutablePair<>(3, 130));
-        put("B", new ImmutablePair<>(2, 45));
+    private static class ProductSpecialOffers {
+        private final int priority;
+        private final List<SpecialOffer> offers;
+
+        public ProductSpecialOffers(int priority, List<SpecialOffer> offers) {
+            this.priority = priority;
+            this.offers = offers;
+        }
+
+        public int getPriority() {
+            return priority;
+        }
+
+        public List<SpecialOffer> getOffers() {
+            return offers;
+        }
+    }
+
+    private static class SpecialOffer {
+        private final int prodNum;
+        private final int newPrice;
+        private final List<String> freeProducts;
+        private boolean removeFromBasket;
+
+        public SpecialOffer(int prodNum, int newPrice) {
+            this.prodNum = prodNum;
+            this.newPrice = newPrice;
+            this.removeFromBasket = true;
+            this.freeProducts = new ArrayList<>();
+        }
+
+        public SpecialOffer(int prodNum, int newPrice, List<String> freeProducts, boolean removeFromBasket) {
+            this.prodNum = prodNum;
+            this.newPrice = newPrice;
+            this.freeProducts = freeProducts;
+            this.removeFromBasket = removeFromBasket;
+        }
+
+        public int getProdNum() {
+            return prodNum;
+        }
+
+        public int getNewPrice() {
+            return newPrice;
+        }
+
+        public List<String> getFreeProducts() {
+            return freeProducts;
+        }
+
+        public boolean isRemoveFromBasket() {
+            return removeFromBasket;
+        }
+    }
+
+    private static final Map<String, ProductSpecialOffers> specialOffers = new HashMap<String, ProductSpecialOffers>(){{
+        // order is important bigger offer first!
+        put("A", new ProductSpecialOffers(1, Arrays.asList(new SpecialOffer(5, 200), new SpecialOffer(3,130))));
+        put("B", new ProductSpecialOffers(3, Arrays.asList(new SpecialOffer(2,45))));
+        put("E", new ProductSpecialOffers(2, Arrays.asList(new SpecialOffer(2,0, Arrays.asList("B"), false))));
     }};
 
     public SpecialOfferCalculation calculate(final List<String> basket) {
@@ -23,20 +77,45 @@ public class SpecialOfferCalculator {
         final Map<String, List<String>> productCounts = basketCopy.stream()
                 .collect(Collectors.groupingBy(Function.identity()));
 
+        // order by offer priority,
+        final List<Map.Entry<String, List<String>>> entries = productCounts.entrySet().stream()
+                .sorted(getProductPriorityComparator())
+                .collect(Collectors.toList());
+
         int sum = 0;
-        for(Map.Entry<String, List<String>> productCount : productCounts.entrySet()){
+        for(Map.Entry<String, List<String>> productCount : entries){
 
             if(specialOffers.containsKey(productCount.getKey())){
-                final Pair<Integer, Integer> specialOffer = specialOffers.get(productCount.getKey());
-                final int offerNum = productCount.getValue().size() / specialOffer.getLeft();
-                sum += offerNum * specialOffer.getRight();
-                for(int i = 0; i < offerNum * specialOffer.getLeft(); i++){
-                    basketCopy.remove(productCount.getValue().get(i));
+                int productNumber = productCount.getValue().size();
+                for(final SpecialOffer specialOffer : specialOffers.get(productCount.getKey()).getOffers()){
+                    final int offerNum = productNumber / specialOffer.getProdNum();
+                    for(int offerApply = 0; offerApply < offerNum; offerApply++) {
+                    sum += specialOffer.getNewPrice();
+                    final int productsToDelete = specialOffer.getProdNum();
+                    productNumber -= productsToDelete;
+
+                    if(specialOffer.isRemoveFromBasket()) {
+                        for (int i = 0; i < productsToDelete; i++) {
+                            basketCopy.remove(productCount.getValue().get(i));
+                        }
+                    }
+                    specialOffer.getFreeProducts().forEach(s -> basketCopy.remove(s));
+                    specialOffer.getFreeProducts().forEach(s -> productCounts.getOrDefault(s, new ArrayList<>()).remove(s));
+                    }
                 }
+
             }
 
         }
-
         return new SpecialOfferCalculation(sum, basketCopy);
     }
+
+    private Comparator<Map.Entry<String, List<String>>> getProductPriorityComparator(){
+        return (o1, o2) -> {
+            final int offer1Priority = specialOffers.containsKey(o1.getKey()) ? specialOffers.get(o1.getKey()).getPriority() : -1;
+            final int offer2Priority = specialOffers.containsKey(o2.getKey()) ? specialOffers.get(o2.getKey()).getPriority() : -1;
+            return Integer.compare(offer1Priority, offer2Priority);
+        };
+    }
+
 }

@@ -16,13 +16,13 @@ public class SupermarketAppTest {
         assertThat(supermarketApp.checkout("B"), is(30));
         assertThat(supermarketApp.checkout("C"), is(20));
         assertThat(supermarketApp.checkout("D"), is(15));
-
+        assertThat(supermarketApp.checkout("E"), is(40));
     }
 
     @Test
     public void shouldReturnFailureIfUnkownProduct(){
 
-        assertThat(supermarketApp.checkout("2"), is(-1));
+        assertThat(supermarketApp.checkout("Z"), is(-1));
     }
 
     @Test
@@ -35,9 +35,10 @@ public class SupermarketAppTest {
 
     @Test
     public void shouldCalculatePriceForListOfSingleProducts(){
-        assertThat(supermarketApp.checkout("A B C D"), is(115));
-        assertThat(supermarketApp.checkout("A   D   "), is(65));
-        assertThat(supermarketApp.checkout("A B C"), is(100));
+        assertThat(supermarketApp.checkout("ABCD"), is(115));
+        assertThat(supermarketApp.checkout("AD"), is(65));
+        assertThat(supermarketApp.checkout("ABC"), is(100));
+        assertThat(supermarketApp.checkout("ABCDE"), is(155));
     }
 
     @Test
@@ -48,10 +49,10 @@ public class SupermarketAppTest {
 
     @Test
     public void shouldCalculateSpecialOffers(){
-        assertThat(supermarketApp.checkout("A A A"), is(130));
-        assertThat(supermarketApp.checkout("B B"), is(45));
-        assertThat(supermarketApp.checkout("A B A B A"), is(130 + 45));
-        assertThat(supermarketApp.checkout("A B A B A A"), is(130 + 45 + 50));
+        assertThat(supermarketApp.checkout("AAA"), is(130));
+        assertThat(supermarketApp.checkout("BB"), is(45));
+        assertThat(supermarketApp.checkout("ABABA"), is(130 + 45));
+        assertThat(supermarketApp.checkout("ABABAA"), is(130 + 45 + 50));
     }
 
 
